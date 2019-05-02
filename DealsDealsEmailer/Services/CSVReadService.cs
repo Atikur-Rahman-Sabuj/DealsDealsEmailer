@@ -19,16 +19,16 @@ namespace DealsDealsEmailer.Services
                 parser.Delimiters = new string[] { "," };
                 var fields = parser.ReadFields();
                 var headers = fields;
-                var line = parser.ReadLine();
-                while (line!=null)
+                fields = parser.ReadFields();
+                while (fields!=null)
                 {   
-                    fields = parser.ReadFields();
+                    
                     if (fields != null)
                     {
                         InvoiceEmail invoiceEmail = GetRow(headers.ToList(), fields.ToList());
                         invoiceEmails.Add(invoiceEmail);
                     }
-                    line = parser.ReadLine();
+                    fields = parser.ReadFields();
                 }
             }
 
