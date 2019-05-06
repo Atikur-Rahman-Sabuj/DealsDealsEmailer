@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.FileIO;
+using System.Globalization;
 
 namespace DealsDealsEmailer.Services
 {
@@ -25,7 +26,15 @@ namespace DealsDealsEmailer.Services
                     
                     if (fields != null)
                     {
-                        InvoiceEmail invoiceEmail = GetRow(headers.ToList(), fields.ToList());
+                        InvoiceEmail invoiceEmail=new InvoiceEmail();
+                        try
+                        {
+                            invoiceEmail = GetRow(headers.ToList(), fields.ToList());
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                         invoiceEmails.Add(invoiceEmail);
                     }
                     fields = parser.ReadFields();
@@ -81,7 +90,7 @@ namespace DealsDealsEmailer.Services
                         invoiceEmail.Sale.SalePrice = fields.ElementAt(i);
                         break;
                     case "Custom Label":
-                        invoiceEmail.Sale.CustomLabel = fields.ElementAt(i);
+                        invoiceEmail.Sale.CustomLabel = GetStringorNumber(fields.ElementAt(i));
                         break;
                     case "Postage and Packaging":
                         invoiceEmail.Sale.PostageAndPackaging = fields.ElementAt(i);
@@ -95,12 +104,33 @@ namespace DealsDealsEmailer.Services
                     case "Payment Method":
                         invoiceEmail.Sale.PaymentMethod = fields.ElementAt(i);
                         break;
+                    case "Transaction ID":
+                        invoiceEmail.TransactionId = decimal.Parse( fields.ElementAt(i), NumberStyles.Any, CultureInfo.InvariantCulture).ToString();
+                        break;
+                    case "User Id":
+                        invoiceEmail.UserId = fields.ElementAt(i);
+                        break;
+                    case "Item Number":
+                        invoiceEmail.ItemNumber = decimal.Parse( fields.ElementAt(i), NumberStyles.Any, CultureInfo.InvariantCulture).ToString();
+                        break;
 
                     default:
                         break;
                 }
             }
             return invoiceEmail;
+        }
+        private string GetStringorNumber(string value)
+        {
+            try
+            {
+                string oval = decimal.Parse(value, NumberStyles.Any, CultureInfo.InvariantCulture).ToString();
+                return oval;
+            }
+            catch (Exception)
+            {
+                return value;
+            }
         }
     }
 }
