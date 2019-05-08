@@ -63,14 +63,12 @@ namespace DealsDealsEmailer.Views
             if (comboBox1.SelectedIndex.Equals(0))
             {
                 IsSell = true;
-                tbxSubject.Text = SellSubject;
                 btnSelectCsv.Show();
                 
             }
             else
             {
                 IsSell = false;
-                tbxSubject.Text = FeedbackSubject;
                 btnSelectCsv.Show();
             }
         }
@@ -79,20 +77,25 @@ namespace DealsDealsEmailer.Views
         {
             if (IsSell)
             {
-                new EmailerService().SendSellEmails(InvoiceEmails, dgvCustomers, tbxSubject.Text);
+                new EmailerService().SendSellEmails(InvoiceEmails, dgvCustomers, "");
             }
             else
             {
-                new EmailerService().SendFeedbackEmail(InvoiceEmails, dgvCustomers, tbxSubject.Text);
+                new EmailerService().SendFeedbackEmail(InvoiceEmails, dgvCustomers, "");
             }
         }
         private void ShowHideControls(bool IsVisible)
         {
             lblFileName.Visible = IsVisible;
-            label1.Visible = IsVisible;
-            tbxSubject.Visible = IsVisible;
+            btnReset.Visible = IsVisible;
             btnSendMail.Visible = IsVisible;
             dgvCustomers.Visible = IsVisible;
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            InvoiceEmails.Clear();
+            ShowHideControls(false);
         }
     }
 }

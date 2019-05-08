@@ -23,7 +23,7 @@ namespace DealsDealsEmailer.Views
         private void timer1_Tick(object sender, EventArgs e)
         {
             Start++;
-            if (Start == 3)
+            if (Start == 2)
             {
                 new Emailer().Show();
                 timer1.Stop();

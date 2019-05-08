@@ -29,7 +29,7 @@ namespace DealsDealsEmailer.Services
                 MailAddress From = new MailAddress(FromMail, "DealsDeals");
                 MailAddress To = new MailAddress(ToMail, invoiceEmail.Address.FullName);
                 MailMessage mailMessage = new MailMessage(From, To);
-                mailMessage.Subject = subject;
+                mailMessage.Subject = "Invoice for your recent eBay Order "+ invoiceEmail.ItemNumber;
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Body = GetSellMessageBody(invoiceEmail);
                 try
@@ -61,7 +61,7 @@ namespace DealsDealsEmailer.Services
                 MailAddress From = new MailAddress(FromMail, "DealsDeals");
                 MailAddress To = new MailAddress(ToMail, invoiceEmail.Address.FullName);
                 MailMessage mailMessage = new MailMessage(From, To);
-                mailMessage.Subject = subject;
+                mailMessage.Subject = "Feedback for your recent eBay Order " + invoiceEmail.ItemNumber;
                 mailMessage.IsBodyHtml = false;
                 mailMessage.Body = GetFeedbackMessageBody(invoiceEmail);
                 try
@@ -104,7 +104,7 @@ namespace DealsDealsEmailer.Services
         {
             string body = @"<div style='color:black;'>
     <div style='background: gainsboro;padding: 10px;overflow: hidden; color:black;'>
-        <img style='height:100px;width: auto' src='https://wi-images.condecdn.net/image/doEYpG6Xd87/crop/2040/f/weather.jpg'/>
+        <img style='height:100px;width: auto' src='https://docs.google.com/uc?id=1sQrh4B8D96n9DgdniuHep6tCe8wVoYHZ'/>
         <div style='float:right;text-align: right'>
             <p>HDM Retail LTD</p>
             <p>8 Lammas Close</p>
@@ -127,7 +127,7 @@ namespace DealsDealsEmailer.Services
         </div>
     </div>
     <div style='text-align: center;padding:5px'>
-        <h3>Your Invoice "+invoiceEmail.Sale.SalesRecordNumber+@"</h3>
+        <h3>Your Invoice " + invoiceEmail.Sale.SalesRecordNumber+@"</h3>
         <p style='margin-top:20px;margin-bottom: 25px'>Placed on "+invoiceEmail.Sale.PaidOnDate+ @"</p>
         <p>Please visit our website www.dealsdeals.co.uk</p>
         <p>There is a 10% discount when you use voucher code Ebay10 at checkout</p>
