@@ -30,17 +30,18 @@ namespace DealsDealsEmailer.Services
                         try
                         {
                             invoiceEmail = GetRow(headers.ToList(), fields.ToList());
+                            invoiceEmails.Add(invoiceEmail);
                         }
                         catch (Exception)
                         {
 
                         }
-                        invoiceEmails.Add(invoiceEmail);
+                        
                     }
                     fields = parser.ReadFields();
                 }
             }
-
+            invoiceEmails = invoiceEmails.Where(a => a.Email.Substring(a.Email.Length - 3) == "com").ToList();
             return invoiceEmails;
         }
         public InvoiceEmail GetRow(List<string> headers, List<string> fields)
@@ -55,6 +56,7 @@ namespace DealsDealsEmailer.Services
                         break;
                     case "Buyer Full name":
                         invoiceEmail.Address.FullName = fields.ElementAt(i);
+                        invoiceEmail.Name = fields.ElementAt(i);
                         break;
                     case "Buyer Address 1":
                         invoiceEmail.Address.Address1 = fields.ElementAt(i);

@@ -103,14 +103,14 @@ namespace DealsDealsEmailer.Services
         private string GetSellMessageBody(InvoiceEmail invoiceEmail)
         {
             string body = @"<div style='color:black;'>
-    <div style='background: gainsboro;padding: 10px;overflow: hidden; color:black;'>
+    <div style='background: white;padding: 10px;overflow: hidden;border: 1px solid #cccccc;box-shadow: 0px 3px 9px -4px black;'>
         <img style='height:100px;width: auto' src='https://docs.google.com/uc?id=1sQrh4B8D96n9DgdniuHep6tCe8wVoYHZ'/>
         <div style='float:right;text-align: right'>
-            <p>HDM Retail LTD</p>
-            <p>8 Lammas Close</p>
-            <p>Solihull</p>
-            <p>B92 8PA</p>
-            <p>VAT No: GB 232760325</p>
+            <p style='margin: 5px'>HDM Retail LTD</p>
+            <p style='margin: 5px'>8 Lammas Close</p>
+            <p style='margin: 5px'>Solihull</p>
+            <p style='margin: 5px'>B92 8PA</p>
+            <p style='margin: 5px'>VAT No: GB 232760325</p>
         </div>
     </div>
     <div style='padding:5px'>
@@ -131,21 +131,23 @@ namespace DealsDealsEmailer.Services
         <p style='margin-top:20px;margin-bottom: 25px'>Placed on "+invoiceEmail.Sale.PaidOnDate+ @"</p>
         <p>Please visit our website www.dealsdeals.co.uk</p>
         <p>There is a 10% discount when you use voucher code Ebay10 at checkout</p>
-        <div style='background:gainsboro;overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
-            <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>ITEM IN ORDER</p>
-            <div style='width:40%;float:right;text-align: right'>
-                <p style='padding:10px;width:25%;float:left;margin:0px'>QTY</p>
-                <p style='padding:10px;width:40%;float:right;margin:0px'>PRICE</p>
+        <div style='border:1px solid #979797'>
+            <div style='background:gainsboro;overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
+                <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>ITEM IN ORDER</p>
+                <div style='width:40%;float:right;text-align: right'>
+                    <p style='padding:10px;width:25%;float:left;margin:0px'>QTY</p>
+                    <p style='padding:10px;width:40%;float:right;margin:0px'>PRICE</p>
+                </div>
             </div>
-        </div>
-        <div style='overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
-            <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>" + invoiceEmail.Sale.ItemTitle.Substring(0,50)+ @"</p>
-            <div style='width:40%;float:right;text-align: right'>
-                <p style='padding:10px;width:25%;float:left;margin:0px'>" + invoiceEmail.Sale.Quantity + @"</p>
-                <p style='padding:10px;width:40%;float:right;margin:0px'>"+ "&pound;" + invoiceEmail.Sale.SalePrice.Substring(1) + @"</p>
+            <div style='overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
+                <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>" + invoiceEmail.Sale.ItemTitle.Substring(0,50)+ @"</p>
+                <div style='width:40%;float:right;text-align: right'>
+                    <p style='padding:10px;width:25%;float:left;margin:0px'>" + invoiceEmail.Sale.Quantity + @"</p>
+                    <p style='padding:10px;width:40%;float:right;margin:0px'>"+ "&pound;" + invoiceEmail.Sale.SalePrice.Substring(1) + @"</p>
+                </div>
+                <div style='clear:both'></div>
+                <p style='text-align:left;padding-left: 10px'>SKU: " + invoiceEmail.Sale.CustomLabel + @"</p>
             </div>
-            <div style='clear:both'></div>
-            <p style='text-align:left;padding-left: 10px'>SKU: " + invoiceEmail.Sale.CustomLabel + @"</p>
         </div>
         <hr/>
         <div style='padding:5px'>

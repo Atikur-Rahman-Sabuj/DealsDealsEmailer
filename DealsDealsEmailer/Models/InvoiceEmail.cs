@@ -9,6 +9,7 @@ namespace DealsDealsEmailer.Models
     public class InvoiceEmail
     {
         public string Email { get; set; }
+        public string Name { get; set; }
         public string TransactionId { get; set; }
         public string ItemNumber { get; set; }
         public string UserId { get; set; }

@@ -33,13 +33,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lblFileName = new System.Windows.Forms.Label();
             this.dgvCustomers = new System.Windows.Forms.DataGridView();
-            this.serialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSelectCsv = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnSendMail = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.serialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomers)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,6 +76,7 @@
             this.dgvCustomers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.serialNumber,
             this.colName,
+            this.colEmail,
             this.Status});
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
@@ -95,25 +97,6 @@
             this.dgvCustomers.ShowEditingIcon = false;
             this.dgvCustomers.Size = new System.Drawing.Size(905, 551);
             this.dgvCustomers.TabIndex = 15;
-            // 
-            // serialNumber
-            // 
-            this.serialNumber.HeaderText = "Sl. No.";
-            this.serialNumber.Name = "serialNumber";
-            // 
-            // colName
-            // 
-            this.colName.DataPropertyName = "Email";
-            this.colName.FillWeight = 200F;
-            this.colName.HeaderText = "Email";
-            this.colName.Name = "colName";
-            this.colName.Width = 250;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.Width = 150;
             // 
             // btnSelectCsv
             // 
@@ -144,9 +127,10 @@
             // 
             // btnSendMail
             // 
-            this.btnSendMail.BackColor = System.Drawing.Color.White;
+            this.btnSendMail.BackColor = System.Drawing.Color.Green;
             this.btnSendMail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSendMail.Font = new System.Drawing.Font("Roboto", 10F);
+            this.btnSendMail.ForeColor = System.Drawing.Color.White;
             this.btnSendMail.Location = new System.Drawing.Point(244, 73);
             this.btnSendMail.Name = "btnSendMail";
             this.btnSendMail.Size = new System.Drawing.Size(160, 37);
@@ -157,9 +141,10 @@
             // 
             // btnReset
             // 
-            this.btnReset.BackColor = System.Drawing.Color.White;
+            this.btnReset.BackColor = System.Drawing.Color.Maroon;
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnReset.Font = new System.Drawing.Font("Roboto", 10F);
+            this.btnReset.ForeColor = System.Drawing.Color.White;
             this.btnReset.Location = new System.Drawing.Point(16, 73);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(160, 37);
@@ -167,6 +152,31 @@
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // serialNumber
+            // 
+            this.serialNumber.HeaderText = "Sl. No.";
+            this.serialNumber.Name = "serialNumber";
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            // 
+            // colEmail
+            // 
+            this.colEmail.DataPropertyName = "Email";
+            this.colEmail.FillWeight = 200F;
+            this.colEmail.HeaderText = "Email";
+            this.colEmail.Name = "colEmail";
+            this.colEmail.Width = 250;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.Width = 150;
             // 
             // Emailer
             // 
@@ -195,9 +205,10 @@
         private System.Windows.Forms.Button btnSelectCsv;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnSendMail;
+        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridViewTextBoxColumn serialNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEmail;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.Button btnReset;
     }
 }
