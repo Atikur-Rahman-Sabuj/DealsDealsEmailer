@@ -102,7 +102,21 @@ namespace DealsDealsEmailer.Services
 
         private string GetSellMessageBody(InvoiceEmail invoiceEmail)
         {
-            string body = @"<div style='color:black;'>
+            decimal saleprice = CalculateSalePrice(invoiceEmail.Sale.SalePrice);
+            decimal totalPrice = saleprice * Convert.ToInt32(invoiceEmail.Sale.Quantity);
+            decimal postageshipping = CalculateSalePrice(invoiceEmail.Sale.PostageAndPackaging);
+            decimal tax = 0;
+            if (invoiceEmail.Address.Country.Equals("United Kingdom"))
+            {
+                tax = (Convert.ToDecimal("20") / Convert.ToDecimal("120")) * totalPrice;
+            }
+            decimal subTotal = totalPrice - tax;
+           
+           
+            //decimal grandTotal = CalculateSalePrice(invoiceEmail.Sale.TotalPrice);
+            decimal grandTotal = CalculateSalePrice(invoiceEmail.Sale.TotalPrice);
+            string currency = GetCurrency(invoiceEmail.Sale.SalePrice);
+            string body = @"<div style='color:black !important; background: #ecebeb;overflow: hidden;padding: 2%;padding-left: 3px;padding-right: 3px'>
     <div style='background: white;padding: 10px;overflow: hidden;border: 1px solid #cccccc;box-shadow: 0px 3px 9px -4px black;'>
         <img style='height:100px;width: auto' src='https://docs.google.com/uc?id=1sQrh4B8D96n9DgdniuHep6tCe8wVoYHZ'/>
         <div style='float:right;text-align: right'>
@@ -113,87 +127,147 @@ namespace DealsDealsEmailer.Services
             <p style='margin: 5px'>VAT No: GB 232760325</p>
         </div>
     </div>
-    <div style='padding:5px'>
-        <div style='background: powderblue;padding-top: 20px;padding-bottom: 30px;overflow: hidden;'>
-            <div style='width:60%;padding-left: 10px;padding-top: 10px;float: left;border-right: 1px dotted #6e6e6e'>
-                <p style='margin-bottom:30px'>Thank you for your order from DealsDelas</p>
-                <p >Please visit our website at <b>www.dealsdeals.co.uk</b> for more great offerss</p>
-            </div>
-            <div style='width:30%; float:right;padding-left: 10px'>
-                <p style='margin-bottom:20px'><b>Order questions?</b></p>
-                <p><b>Call Us: </b>0800 448 8228</p>
-                <p><b>Email: </b>info@dealsdeals.co.uk</p>
-            </div>
-        </div>
-    </div>
-    <div style='text-align: center;padding:5px'>
-        <h3>Your Invoice " + invoiceEmail.Sale.SalesRecordNumber+@"</h3>
-        <p style='margin-top:20px;margin-bottom: 25px'>Placed on "+invoiceEmail.Sale.PaidOnDate+ @"</p>
-        <p>Please visit our website www.dealsdeals.co.uk</p>
-        <p>There is a 10% discount when you use voucher code Ebay10 at checkout</p>
-        <div style='border:1px solid #979797'>
-            <div style='background:gainsboro;overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
-                <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>ITEM IN ORDER</p>
-                <div style='width:40%;float:right;text-align: right'>
-                    <p style='padding:10px;width:25%;float:left;margin:0px'>QTY</p>
-                    <p style='padding:10px;width:40%;float:right;margin:0px'>PRICE</p>
-                </div>
-            </div>
-            <div style='overflow: hidden;padding-top: 15px;padding-bottom: 15px'>
-                <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'>" + invoiceEmail.Sale.ItemTitle.Substring(0,50)+ @"</p>
-                <div style='width:40%;float:right;text-align: right'>
-                    <p style='padding:10px;width:25%;float:left;margin:0px'>" + invoiceEmail.Sale.Quantity + @"</p>
-                    <p style='padding:10px;width:40%;float:right;margin:0px'>"+ "&pound;" + invoiceEmail.Sale.SalePrice.Substring(1) + @"</p>
-                </div>
-                <div style='clear:both'></div>
-                <p style='text-align:left;padding-left: 10px'>SKU: " + invoiceEmail.Sale.CustomLabel + @"</p>
-            </div>
-        </div>
-        <hr/>
+    <div style='background: white;overflow: hidden;'>
         <div style='padding:5px'>
-            <div style='background: powderblue;padding:20px;text-align: left'>
-                <p>Shipping & Handling:	" + "&pound;" + invoiceEmail.Sale.PostageAndPackaging.Substring(1) + @"</p>   
-                <p>Tax	20% of " + "&pound;" + invoiceEmail.Sale.TotalPrice.Substring(1) + @" if " + invoiceEmail.Address.Country + @" = United Kingdom else 0% </p>
-                <p>Grand Total: " + "&pound;" + invoiceEmail.Sale.TotalPrice.Substring(1) + @"</p>
+            <div style='background: powderblue;overflow: hidden;'>
+                <div style='width:60%;padding-left: 10px;padding-top: 20px;float: left;border-right: 1px dotted #6e6e6e'>
+                    <p style='margin-bottom:20px;font-size: 20px'><b>Thank you for your order from DealsDeals</b></p>
+                    <p >Please visit our website at <b>www.dealsdeals.co.uk</b> for more great offers</p>
+                </div>
+                <div style='width:30%; float:right;padding-left: 10px'>
+                    <p style='margin-bottom:20px'><b>Order questions?</b></p>
+                    <p><b>Call Us: </b>0800 448 8228</p>
+                    <p><b>Email: </b>info@dealsdeals.co.uk</p>
+                </div>
+            </div>
+        </div>
+        <div style='text-align: center;padding:5px'>
+            <h3 style='margin-top: 10px;margin-bottom: 5px'>Your Invoice #" + invoiceEmail.Sale.SalesRecordNumber + @"</h3>
+            <p style='margin-top: 10px;margin-bottom: 5px'>Placed on " + invoiceEmail.Sale.PaidOnDate + @"</p>
+            <p style='margin-top: 5px;margin-bottom: 5px'>Please visit our website www.dealsdeals.co.uk</p>
+            <p style='margin-top: 5px;margin-bottom: 5px'>There is a 10% discount when you use voucher code Ebay10 at checkout</p>
+            <div style='border:1px solid #e5e5e5'>
+                <div style='background:gainsboro;overflow: hidden;padding-top: 2px;padding-bottom: 2px'>
+                    <p style='padding:10px;width:40%;float: left;text-align: left;margin:0px;'><b>ITEM IN ORDER</b></p>
+                    <div style='width:40%;float:right;text-align: right'>
+                        <p style='padding:10px;width:25%;float:left;margin:0px'><b>QTY</b></p>
+                        <p style='padding:10px;width:40%;float:right;margin:0px'><b>PRICE</b></p>
+                    </div>
+                </div>
+                <div style='overflow: hidden;padding-top: 2px;padding-bottom: 2px'>
+                    <p style='padding:10px;padding-bottom: 5px;width:50%;float: left;text-align: left;margin:0px;'><b>" + invoiceEmail.Sale.ItemTitle.Substring(0, 50) + @"</b></p>
+                    <div style='width:40%;float:right;text-align: right'>
+                        <p style='padding:10px;padding-bottom: 5px;width:25%;float:left;margin:0px'>" + invoiceEmail.Sale.Quantity + @"</p>
+                        <p style='padding:10px;padding-bottom: 5px;width:40%;float:right;margin:0px'>" + currency + saleprice.ToString() + @"</p>
+                    </div>
+                    <div style='clear:both'></div>
+                    <p style='text-align:left;padding: 0px;margin:0px;padding-left: 10px'>SKU: " + invoiceEmail.Sale.CustomLabel + @"</p>
+                </div>
+            </div>
+            <hr/>
+            <div style='background: powderblue;padding:10px;text-align: left;overflow:hidden'>
+				<div style='width:30%;float:right;text-align:right;padding-right:10px;overflow:hidden'>
+					<p>" + currency + String.Format("{0:0.00}", subTotal) + @"</p> 
+					<p>" + currency + String.Format("{0:0.00}", postageshipping) + @"</p>   
+					<p>" + currency + String.Format("{0:0.00}", tax) + @"</p>
+					<p>" + currency + String.Format("{0:0.00}", grandTotal) + @"</p>
+				</div>
+				<div style='width:60%;float:right;text-align:right;padding-right:10px;overflow:hidden'>
+					<p>Subtotal</p>   
+					<p>Shipping & Handling</p>   
+					<p>Tax</p>
+					<p>Grand Total</p>
+				</div>
+            </div>
+        </div>
+        <div style='padding:3%;padding-top: 5px'> 
+            <div style='width:40%;float: left;'>
+                <p style='margin-top:5px;margin-bottom:5px'><b>BILL TO:</b></p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.FullName + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Address1 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.Address2 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Town + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.County + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.PostCode + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Country + @"</p>
+            </div>
+            <div style='width:40%;float:right'>
+                <p style='margin-top:5px;margin-bottom:5px'><b>SHIP TO:</b></p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.FullName + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Address1 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.Address2 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Town + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.County + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.PostCode + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Country + @"</p>
+            </div>
+        </div>
+        <div style='padding:20px;'> 
+            <div style='width:40%;float: left;'>
+                <p style='margin-top:5px;margin-bottom:5px'><b>SHIPPING METHOD:</b></p>
+                <pstyle='margin-top:3px;margin-bottom:0px'>Select shipping method: " + invoiceEmail.Sale.DeliveryService + @"</p>
+            </div>
+            <div style='width:40%;float:right'>
+                <p style='margin-top:5px;margin-bottom:5px'><b>PAYMENT METHOD:</b></p>
+                <pstyle='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Sale.PaymentMethod + @"</p>
             </div>
         </div>
     </div>
-    <div style='padding:20px;'> 
-        <div style='width:40%;float: left;'>
-            <p><b>BILL TO:</b></p>
-            <p>" + invoiceEmail.Address.FullName + @"</p>
-            <p>" + invoiceEmail.Address.Address1 + @"</p>
-            <p> " + invoiceEmail.Address.Address2 + @"</p>
-            <p>" + invoiceEmail.Address.Town + @"</p>
-            <p> " + invoiceEmail.Address.County + @"</p>
-            <p> " + invoiceEmail.Address.PostCode + @"</p>
-            <p>" + invoiceEmail.Address.Country + @"</p>
-        </div>
-        <div style='width:40%;float:right'>
-            <p><b>SHIP TO:</b></p>
-            <p>" + invoiceEmail.Address.FullName + @"</p>
-            <p>" + invoiceEmail.Address.Address1 + @"</p>
-            <p> " + invoiceEmail.Address.Address2 + @"</p>
-            <p>" + invoiceEmail.Address.Town + @"</p>
-            <p> " + invoiceEmail.Address.County + @"</p>
-            <p> " + invoiceEmail.Address.PostCode + @"</p>
-            <p>" + invoiceEmail.Address.Country + @"</p>
-        </div>
-    </div>
-    <div style='padding:20px;'> 
-        <div style='width:40%;float: left;'>
-            <p><b>SHIPPING METHOD:</b></p>
-            <p>Selected shipping method: " + invoiceEmail.Sale.DeliveryService + @"</p>
-        </div>
-        <div style='width:40%;float:right'>
-            <p><b>PAYMENT METHOD:</b></p>
-            <p>" + invoiceEmail.Sale.PaymentMethod + @"</p>
-            <br/>
-            <p>" + invoiceEmail.Email + @"</p>
-        </div>
+    <div style='text-align: center;padding-top: 15px;font-size: 20px;'>
+        Thank You, DealsDeals
     </div>
 </div>";
             return body;
+        }
+
+        private string GetCurrency(string salePrice)
+        {
+            string currency = "";
+            try
+            {
+                if (salePrice.Contains("EUR"))
+                {
+                    currency = "EUR ";
+                }
+                else if (salePrice.Contains("US"))
+                {
+                    currency = "US $";
+                }
+                else if (salePrice.Contains("AU"))
+                {
+                    currency = "AU $";
+                }
+                else
+                {
+                    currency = "&pound;";
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+            return currency;
+        }
+
+        private decimal CalculateSalePrice(string salePrice)
+        {
+            decimal sp = 0;
+            try
+            {
+                if(salePrice.Contains("�"))
+                {
+                    sp = Convert.ToDecimal(salePrice.Substring(1));
+                }
+                else if (salePrice.Contains("EUR") || salePrice.Contains("US") || salePrice.Contains("AU")) 
+                {
+                    sp = Convert.ToDecimal(salePrice.Substring(4));
+                }
+                
+            }
+            catch (Exception)
+            {
+            }
+            return sp;
         }
     }
 }
