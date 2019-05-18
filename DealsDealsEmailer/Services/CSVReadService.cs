@@ -41,7 +41,7 @@ namespace DealsDealsEmailer.Services
                     fields = parser.ReadFields();
                 }
             }
-            invoiceEmails = invoiceEmails.Where(a => a.Email.Substring(a.Email.Length - 3) == "com").ToList();
+            invoiceEmails = invoiceEmails.Where(a => a.Email.Contains("@")).ToList();
             return invoiceEmails;
         }
         public InvoiceEmail GetRow(List<string> headers, List<string> fields)
@@ -107,13 +107,13 @@ namespace DealsDealsEmailer.Services
                         invoiceEmail.Sale.PaymentMethod = fields.ElementAt(i);
                         break;
                     case "Transaction ID":
-                        invoiceEmail.TransactionId = decimal.Parse( fields.ElementAt(i), NumberStyles.Any, CultureInfo.InvariantCulture).ToString();
+                        invoiceEmail.TransactionId = GetStringorNumber(fields.ElementAt(i));
                         break;
                     case "User Id":
                         invoiceEmail.UserId = fields.ElementAt(i);
                         break;
                     case "Item Number":
-                        invoiceEmail.ItemNumber = decimal.Parse( fields.ElementAt(i), NumberStyles.Any, CultureInfo.InvariantCulture).ToString();
+                        invoiceEmail.ItemNumber = GetStringorNumber(fields.ElementAt(i));
                         break;
 
                     default:

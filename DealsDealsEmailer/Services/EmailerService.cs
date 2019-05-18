@@ -31,19 +31,50 @@ namespace DealsDealsEmailer.Services
                 MailMessage mailMessage = new MailMessage(From, To);
                 mailMessage.Subject = "Invoice for your recent eBay Order "+ invoiceEmail.ItemNumber;
                 mailMessage.IsBodyHtml = true;
-                mailMessage.Body = GetSellMessageBody(invoiceEmail);
                 try
                 {
+                    mailMessage.Body = GetSellMessageBody(invoiceEmail);
+                
                     client.Send(mailMessage);
                     dgv.Rows[i].Cells["Status"].Value = "Sent";
                 }
                 catch (Exception ex)
                 {
                     dgv.Rows[i].Cells["Status"].Value = "Not Sent";
+                    SendDeveloperMail(ex.Message, i, invoiceEmail.Email);
                 }
             }
 
         }
+
+        private void SendDeveloperMail(string message, int index, string email)
+        {
+            try
+            {
+                string ToMail = "sabuj.probook@gmail.com";
+                string FromMail = "info@dealsdeals.co.uk";
+                SmtpClient client = new SmtpClient();
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("info@dealsdeals.co.uk", "Laxmi2121");
+                client.Port = 2525;
+                client.Host = "mail.dealsdeals.co.uk";
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = false;
+                MailAddress From = new MailAddress(FromMail, "DealsDeals");
+                MailAddress To = new MailAddress(ToMail, "Deals deals developer");
+                MailMessage mailMessage = new MailMessage(From, To);
+                mailMessage.Subject = "Exception report";
+                mailMessage.IsBodyHtml = false;
+                mailMessage.Body = "To: "+email +nl(1)+ "On index: "+ index + nl(1)+"Message: "+ message;
+            
+                client.Send(mailMessage);
+           
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         public void SendFeedbackEmail(List<InvoiceEmail> invoiceEmails, DataGridView dgv, string subject)
         {
             for (int i = 0; i < invoiceEmails.Count; i++)
@@ -111,8 +142,17 @@ namespace DealsDealsEmailer.Services
                 tax = (Convert.ToDecimal("20") / Convert.ToDecimal("120")) * totalPrice;
             }
             decimal subTotal = totalPrice - tax;
-           
-           
+
+            string title = "";
+            try
+            {
+                title = invoiceEmail.Sale.ItemTitle.Substring(0, 50);
+            }
+            catch (Exception)
+            {
+                title = invoiceEmail.Sale.ItemTitle;
+            }
+                
             //decimal grandTotal = CalculateSalePrice(invoiceEmail.Sale.TotalPrice);
             decimal grandTotal = CalculateSalePrice(invoiceEmail.Sale.TotalPrice);
             string currency = GetCurrency(invoiceEmail.Sale.SalePrice);
@@ -155,7 +195,7 @@ namespace DealsDealsEmailer.Services
                     </div>
                 </div>
                 <div style='overflow: hidden;padding-top: 2px;padding-bottom: 2px'>
-                    <p style='padding:10px;padding-bottom: 5px;width:50%;float: left;text-align: left;margin:0px;'><b>" + invoiceEmail.Sale.ItemTitle.Substring(0, 50) + @"</b></p>
+                    <p style='padding:10px;padding-bottom: 5px;width:50%;float: left;text-align: left;margin:0px;'><b>" + title + @"</b></p>
                     <div style='width:40%;float:right;text-align: right'>
                         <p style='padding:10px;padding-bottom: 5px;width:25%;float:left;margin:0px'>" + invoiceEmail.Sale.Quantity + @"</p>
                         <p style='padding:10px;padding-bottom: 5px;width:40%;float:right;margin:0px'>" + currency + saleprice.ToString() + @"</p>
