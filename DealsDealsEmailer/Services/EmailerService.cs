@@ -27,7 +27,7 @@ namespace DealsDealsEmailer.Services
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.EnableSsl = false;
                 MailAddress From = new MailAddress(FromMail, "DealsDeals");
-                MailAddress To = new MailAddress(ToMail, invoiceEmail.Address.FullName);
+                MailAddress To = new MailAddress(ToMail, invoiceEmail.BuyerAddress.FullName);
                 MailMessage mailMessage = new MailMessage(From, To);
                 mailMessage.Subject = "Invoice for your recent eBay Order "+ invoiceEmail.ItemNumber;
                 mailMessage.IsBodyHtml = true;
@@ -90,7 +90,7 @@ namespace DealsDealsEmailer.Services
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.EnableSsl = false;
                 MailAddress From = new MailAddress(FromMail, "DealsDeals");
-                MailAddress To = new MailAddress(ToMail, invoiceEmail.Address.FullName);
+                MailAddress To = new MailAddress(ToMail, invoiceEmail.BuyerAddress.FullName);
                 MailMessage mailMessage = new MailMessage(From, To);
                 mailMessage.Subject = "Feedback for your recent eBay Order " + invoiceEmail.ItemNumber;
                 mailMessage.IsBodyHtml = false;
@@ -109,7 +109,7 @@ namespace DealsDealsEmailer.Services
 
         private string GetFeedbackMessageBody(InvoiceEmail invoiceEmail)
         {
-            string body = "Hi " + invoiceEmail.Address.FullName + nl(2);
+            string body = "Hi " + invoiceEmail.BuyerAddress.FullName + nl(2);
             body += "Thank you very much for your purchase of " + invoiceEmail.Sale.ItemTitle + nl(2);
             body += "I was just checking through my feedback page and noticed you have not yet left feedback for this purchase. If everything was satisfactory please consider leaving feedback by clicking on the link." + nl(2);
             body += "http://feedback.ebay.com/ws/eBayISAPI.dll?LeaveFeedback2&useridto="+invoiceEmail.UserId+"&item="+invoiceEmail.ItemNumber+"&transactid="+invoiceEmail.TransactionId + nl(2);
@@ -136,12 +136,13 @@ namespace DealsDealsEmailer.Services
             decimal saleprice = CalculateSalePrice(invoiceEmail.Sale.SalePrice);
             decimal totalPrice = saleprice * Convert.ToInt32(invoiceEmail.Sale.Quantity);
             decimal postageshipping = CalculateSalePrice(invoiceEmail.Sale.PostageAndPackaging);
-            decimal tax = 0;
-            if (invoiceEmail.Address.Country.Equals("United Kingdom"))
-            {
-                tax = (Convert.ToDecimal("20") / Convert.ToDecimal("120")) * totalPrice;
-            }
-            decimal subTotal = totalPrice - tax;
+            
+            //decimal tax = 0;
+            //if (invoiceEmail.BuyerAddress.Country.Equals("United Kingdom"))
+            //{
+            //    tax = (Convert.ToDecimal("20") / Convert.ToDecimal("120")) * totalPrice;
+            //}
+            //decimal subTotal = totalPrice - tax;
 
             string title = "";
             try
@@ -207,42 +208,40 @@ namespace DealsDealsEmailer.Services
             <hr/>
             <div style='background: powderblue;padding:10px;text-align: left;overflow:hidden'>
 				<div style='width:30%;float:right;text-align:right;padding-right:10px;overflow:hidden'>
-					<p>" + currency + String.Format("{0:0.00}", subTotal) + @"</p> 
+					<p>" + currency + String.Format("{0:0.00}", totalPrice) + @"</p> 
 					<p>" + currency + String.Format("{0:0.00}", postageshipping) + @"</p>   
-					<p>" + currency + String.Format("{0:0.00}", tax) + @"</p>
 					<p>" + currency + String.Format("{0:0.00}", grandTotal) + @"</p>
 				</div>
 				<div style='width:60%;float:right;text-align:right;padding-right:10px;overflow:hidden'>
 					<p>Subtotal</p>   
 					<p>Shipping & Handling</p>   
-					<p>Tax</p>
 					<p>Grand Total</p>
 				</div>
             </div>
         </div>
-        <div style='padding:3%;padding-top: 5px'> 
+        <div style='padding:3%;padding-top: 5px;overflow:hidden'> 
             <div style='width:40%;float: left;'>
                 <p style='margin-top:5px;margin-bottom:5px'><b>BILL TO:</b></p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.FullName + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Address1 + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.Address2 + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Town + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.County + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.PostCode + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Country + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.BuyerAddress.FullName + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.BuyerAddress.Address1 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.BuyerAddress.Address2 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.BuyerAddress.Town + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.BuyerAddress.County + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.BuyerAddress.PostCode + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.BuyerAddress.Country + @"</p>
             </div>
             <div style='width:40%;float:right'>
                 <p style='margin-top:5px;margin-bottom:5px'><b>SHIP TO:</b></p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.FullName + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Address1 + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.Address2 + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Town + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.County + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.Address.PostCode + @"</p>
-                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.Address.Country + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.PosttoAddress.FullName + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.PosttoAddress.Address1 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.PosttoAddress.Address2 + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.PosttoAddress.Town + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.PosttoAddress.County + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'> " + invoiceEmail.PosttoAddress.PostCode + @"</p>
+                <p style='margin-top:3px;margin-bottom:0px'>" + invoiceEmail.PosttoAddress.Country + @"</p>
             </div>
         </div>
-        <div style='padding:20px;'> 
+        <div style='padding-left:20px;padding-right:20px'> 
             <div style='width:40%;float: left;'>
                 <p style='margin-top:5px;margin-bottom:5px'><b>SHIPPING METHOD:</b></p>
                 <pstyle='margin-top:3px;margin-bottom:0px'>Select shipping method: " + invoiceEmail.Sale.DeliveryService + @"</p>
@@ -295,6 +294,10 @@ namespace DealsDealsEmailer.Services
             try
             {
                 if(salePrice.Contains("�"))
+                {
+                    sp = Convert.ToDecimal(salePrice.Substring(1));
+                }
+                else if(salePrice.Contains("£"))
                 {
                     sp = Convert.ToDecimal(salePrice.Substring(1));
                 }

@@ -49,70 +49,97 @@ namespace DealsDealsEmailer.Services
             InvoiceEmail invoiceEmail = new InvoiceEmail();
             for (int i = 0; i<fields.Count;i++)
             {
-                switch (headers.ElementAt(i))
+                switch (headers.ElementAt(i).ToLower())
                 {
-                    case "Buyer Email":
+                    case ("buyer email"):
                         invoiceEmail.Email = fields.ElementAt(i);
                         break;
-                    case "Buyer Full name":
-                        invoiceEmail.Address.FullName = fields.ElementAt(i);
+                    case "buyer name":
+                        invoiceEmail.BuyerAddress.FullName = fields.ElementAt(i);
                         invoiceEmail.Name = fields.ElementAt(i);
                         break;
-                    case "Buyer Address 1":
-                        invoiceEmail.Address.Address1 = fields.ElementAt(i);
+                    case "buyer address 1":
+                        invoiceEmail.BuyerAddress.Address1 = fields.ElementAt(i);
                         break;
-                    case "Buyer Address 2":
-                        invoiceEmail.Address.Address2 = fields.ElementAt(i);
+                    case "buyer address 2":
+                        invoiceEmail.BuyerAddress.Address2 = fields.ElementAt(i);
                         break;
-                    case "Buyer Town/City":
-                        invoiceEmail.Address.Town = fields.ElementAt(i);
+                    case "buyer city":
+                        invoiceEmail.BuyerAddress.Town = fields.ElementAt(i);
                         break;
-                    case "Buyer County":
-                        invoiceEmail.Address.County = fields.ElementAt(i);
+                    case "buyer county":
+                        invoiceEmail.BuyerAddress.County = fields.ElementAt(i);
                         break;
-                    case "Buyer Postcode":
-                        invoiceEmail.Address.PostCode = fields.ElementAt(i);
+                    case "buyer postcode":
+                        invoiceEmail.BuyerAddress.PostCode = fields.ElementAt(i);
                         break;
-                    case "Buyer Country":
-                        invoiceEmail.Address.Country = fields.ElementAt(i);
+                    case "buyer country":
+                        invoiceEmail.BuyerAddress.Country = fields.ElementAt(i);
                         break;
-                    case "Sales Record Number":
+
+
+
+                    case "post to name":
+                        invoiceEmail.PosttoAddress.FullName = fields.ElementAt(i);
+                        break;
+                    case "post to address 1":
+                        invoiceEmail.PosttoAddress.Address1 = fields.ElementAt(i);
+                        break;
+                    case "post to address 2":
+                        invoiceEmail.PosttoAddress.Address2 = fields.ElementAt(i);
+                        break;
+                    case "post to city":
+                        invoiceEmail.PosttoAddress.Town = fields.ElementAt(i);
+                        break;
+                    case "post to county":
+                        invoiceEmail.PosttoAddress.County = fields.ElementAt(i);
+                        break;
+                    case "post to postcode":
+                        invoiceEmail.PosttoAddress.PostCode = fields.ElementAt(i);
+                        break;
+                    case "post to country":
+                        invoiceEmail.PosttoAddress.Country = fields.ElementAt(i);
+                        break;
+
+
+                    case "sales record number":
                         invoiceEmail.Sale.SalesRecordNumber = fields.ElementAt(i);
                         break;
-                    case "Paid on Date":
+                    //showing sale date on paid on date
+                    case "sale date":
                         invoiceEmail.Sale.PaidOnDate = fields.ElementAt(i);
                         break;
-                    case "Item Title":
+                    case "item title":
                         invoiceEmail.Sale.ItemTitle = fields.ElementAt(i);
                         break;
-                    case "Quantity":
+                    case "quantity":
                         invoiceEmail.Sale.Quantity = fields.ElementAt(i);
                         break;
-                    case "Sale Price":
+                    case "sold for":
                         invoiceEmail.Sale.SalePrice = fields.ElementAt(i);
                         break;
-                    case "Custom Label":
+                    case "custom label":
                         invoiceEmail.Sale.CustomLabel = GetStringorNumber(fields.ElementAt(i));
                         break;
-                    case "Postage and Packaging":
+                    case "postage and packaging":
                         invoiceEmail.Sale.PostageAndPackaging = fields.ElementAt(i);
                         break;
-                    case "Total Price":
+                    case "total price":
                         invoiceEmail.Sale.TotalPrice = fields.ElementAt(i);
                         break;
-                    case "Delivery Service":
+                    case "delivery service":
                         invoiceEmail.Sale.DeliveryService = fields.ElementAt(i);
                         break;
-                    case "Payment Method":
+                    case "payment method":
                         invoiceEmail.Sale.PaymentMethod = fields.ElementAt(i);
                         break;
-                    case "Transaction ID":
+                    case "transaction id":
                         invoiceEmail.TransactionId = GetStringorNumber(fields.ElementAt(i));
                         break;
-                    case "User Id":
+                    case "user id":
                         invoiceEmail.UserId = fields.ElementAt(i);
                         break;
-                    case "Item Number":
+                    case "item number":
                         invoiceEmail.ItemNumber = GetStringorNumber(fields.ElementAt(i));
                         break;
 

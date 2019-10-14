@@ -52,7 +52,7 @@ namespace DealsDealsEmailer.Views
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
+               MessageBox.Show(ex.Message);
                // dgvCustomers.Visible = false;
                // btnSendEmails.Visible = false;
             }

@@ -14,11 +14,13 @@ namespace DealsDealsEmailer.Models
         public string ItemNumber { get; set; }
         public string UserId { get; set; }
         public Sale Sale { get; set; }
-        public Address Address { get; set; }
+        public Address BuyerAddress { get; set; }
+        public Address PosttoAddress { get; set; }
         public InvoiceEmail()
         {
             Sale = new Sale();
-            Address = new Address();
+            BuyerAddress = new Address();
+            PosttoAddress = new Address();
         }
     }
 }
