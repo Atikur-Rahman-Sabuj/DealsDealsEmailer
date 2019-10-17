@@ -50,11 +50,10 @@
             // 
             // lblFileName
             // 
-            this.lblFileName.Font = new System.Drawing.Font("Roboto", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileName.Location = new System.Drawing.Point(411, 25);
-            this.lblFileName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFileName.Location = new System.Drawing.Point(274, 16);
             this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(332, 23);
+            this.lblFileName.Size = new System.Drawing.Size(221, 15);
             this.lblFileName.TabIndex = 17;
             this.lblFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -66,7 +65,7 @@
             this.dgvCustomers.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Roboto", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -80,14 +79,15 @@
             this.Status});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvCustomers.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvCustomers.GridColor = System.Drawing.Color.White;
-            this.dgvCustomers.Location = new System.Drawing.Point(16, 129);
+            this.dgvCustomers.Location = new System.Drawing.Point(11, 84);
+            this.dgvCustomers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvCustomers.MultiSelect = false;
             this.dgvCustomers.Name = "dgvCustomers";
             this.dgvCustomers.RowHeadersVisible = false;
@@ -95,7 +95,7 @@
             this.dgvCustomers.RowTemplate.Height = 28;
             this.dgvCustomers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCustomers.ShowEditingIcon = false;
-            this.dgvCustomers.Size = new System.Drawing.Size(905, 551);
+            this.dgvCustomers.Size = new System.Drawing.Size(603, 358);
             this.dgvCustomers.TabIndex = 15;
             // 
             // serialNumber
@@ -127,10 +127,11 @@
             // 
             this.btnSelectCsv.BackColor = System.Drawing.Color.White;
             this.btnSelectCsv.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelectCsv.Font = new System.Drawing.Font("Roboto", 10F);
-            this.btnSelectCsv.Location = new System.Drawing.Point(244, 17);
+            this.btnSelectCsv.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnSelectCsv.Location = new System.Drawing.Point(163, 11);
+            this.btnSelectCsv.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSelectCsv.Name = "btnSelectCsv";
-            this.btnSelectCsv.Size = new System.Drawing.Size(160, 37);
+            this.btnSelectCsv.Size = new System.Drawing.Size(107, 24);
             this.btnSelectCsv.TabIndex = 14;
             this.btnSelectCsv.Text = "Select CSV";
             this.btnSelectCsv.UseVisualStyleBackColor = false;
@@ -139,14 +140,15 @@
             // comboBox1
             // 
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.comboBox1.Font = new System.Drawing.Font("Roboto", 10F);
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Invoice Email",
             "Feedback Email"});
-            this.comboBox1.Location = new System.Drawing.Point(16, 17);
+            this.comboBox1.Location = new System.Drawing.Point(11, 11);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(206, 32);
+            this.comboBox1.Size = new System.Drawing.Size(139, 24);
             this.comboBox1.TabIndex = 13;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -154,11 +156,12 @@
             // 
             this.btnSendMail.BackColor = System.Drawing.Color.Green;
             this.btnSendMail.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSendMail.Font = new System.Drawing.Font("Roboto", 10F);
+            this.btnSendMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btnSendMail.ForeColor = System.Drawing.Color.White;
-            this.btnSendMail.Location = new System.Drawing.Point(244, 73);
+            this.btnSendMail.Location = new System.Drawing.Point(163, 47);
+            this.btnSendMail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSendMail.Name = "btnSendMail";
-            this.btnSendMail.Size = new System.Drawing.Size(160, 37);
+            this.btnSendMail.Size = new System.Drawing.Size(107, 24);
             this.btnSendMail.TabIndex = 20;
             this.btnSendMail.Text = "Send Mail";
             this.btnSendMail.UseVisualStyleBackColor = false;
@@ -168,11 +171,12 @@
             // 
             this.btnReset.BackColor = System.Drawing.Color.Maroon;
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnReset.Font = new System.Drawing.Font("Roboto", 10F);
+            this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Location = new System.Drawing.Point(16, 73);
+            this.btnReset.Location = new System.Drawing.Point(11, 47);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(160, 37);
+            this.btnReset.Size = new System.Drawing.Size(107, 24);
             this.btnReset.TabIndex = 21;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
@@ -180,17 +184,17 @@
             // 
             // Emailer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(933, 692);
+            this.ClientSize = new System.Drawing.Size(622, 450);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnSendMail);
             this.Controls.Add(this.lblFileName);
             this.Controls.Add(this.dgvCustomers);
             this.Controls.Add(this.btnSelectCsv);
             this.Controls.Add(this.comboBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Emailer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Deals Deals Emailer";
